@@ -32,6 +32,7 @@ PINAX_PROJECTS = [
 ]
 EXTRA_APP_ALIASES = {
     "django_filters": ["django_filters.tests"],
+    "idios": ["idios.tests"],
 }
 
 
@@ -82,7 +83,7 @@ def setup_test_environment():
     settings.configure(**{
         "DATABASE_ENGINE": "sqlite3",
         "SITE_ID": 1,
-        "ROOT_URLCONF": "",
+        "ROOT_URLCONF": "urls",
         "STATIC_URL": "/site_media/static/",
         "MIDDLEWARE_CLASSES": [
             "django.middleware.common.CommonMiddleware",
@@ -108,9 +109,12 @@ def setup_test_environment():
             "django.core.context_processors.request",
             "django.contrib.messages.context_processors.messages",
             "pinax.core.context_processors.pinax_settings",
+            "pinax.apps.account.context_processors.account",
         ],
         "CONTACT_EMAIL": "feedback@example.com",
         "SITE_NAME": "Pinax",
+        "AUTH_PROFILE_MODULE": "tests.SimpleProfile",
+        "PHOTOLOGUE_DIR": os.path.join(os.path.dirname(os.path.abspath(__file__)), 'photologue')
     })
 
 

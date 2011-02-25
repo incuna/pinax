@@ -125,14 +125,15 @@ def profile(request, username, template_name="profiles/profile.html", extra_cont
                             other_friends = Friendship.objects.friends_for_user(other_user)
                     except FriendshipInvitation.DoesNotExist:
                         pass
+            previous_invitations_to = FriendshipInvitation.objects.invitations(to_user=other_user, from_user=request.user)
+            previous_invitations_from = FriendshipInvitation.objects.invitations(to_user=request.user, from_user=other_user)
         else:
             invite_form = InviteFriendForm(request.user, {
                 "to_user": username,
                 "message": ugettext("Let's be friends!"),
             })
-    
-    previous_invitations_to = FriendshipInvitation.objects.invitations(to_user=other_user, from_user=request.user)
-    previous_invitations_from = FriendshipInvitation.objects.invitations(to_user=request.user, from_user=other_user)
+            previous_invitations_to = None
+            previous_invitations_from = None
     
     return render_to_response(template_name, dict({
         "is_me": is_me,
